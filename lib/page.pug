@@ -1,0 +1,75 @@
+//-	Copyright (c) 2020-2021 Johan A. Goossens. All rights reserved.
+//-
+//-	This work is licensed under the terms of the MIT license.
+//-	For a copy, see <https://opensource.org/licenses/MIT>.
+
+mixin page(title)
+	doctype html
+	html(lang="en")
+		head
+			title= title
+			meta(charset="utf-8")
+			meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+			meta(http-equiv="x-ua-compatible", content="ie=edge")
+			link(rel="stylesheet", type="text/css", href="css/bootstrap.min.css")
+			link(rel="stylesheet", type="text/css", href="fonts/font-awesome.min.css")
+			link(rel="stylesheet", type="text/css", href="css/site.css")
+			if lightbox
+				link(rel="stylesheet", type="text/css", href="css/featherlight.min.css")
+				link(rel="stylesheet", type="text/css", href="css/lightbox.css")
+		body(id="page-top")
+			if block
+				block
+
+			script(src="js/jquery.min.js")
+			script(src="js/bootstrap.min.js")
+			script(src="js/jquery.easing.min.js")
+			script(src="js/site.js")
+			if lightbox
+				script(src="js/featherlight.min.js")
+				script(src="js/lightbox.js")
+
+mixin menubar(title)
+	nav(class="navbar fixed-top navbar-expand-md navbar-custom")
+		div(class="container")
+			a(class="navbar-brand page-scroll" href="#page-top")
+				i(class="fa fa-play-circle")
+					span(class="pl-2")= title
+			button(data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" data-toogle="collapse" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation")
+				i(class="fa fa-bars")
+			div(class="collapse navbar-collapse" id="navbarResponsive")
+				ul(class="navbar-nav ml-auto")
+					if block
+						block
+
+mixin menuitem(title, href)
+	li(class="nav-item text-right")
+		a(class="nav-link page-scroll" href=href)= title
+
+mixin intro(title, subtitle, background)
+	section(class="intro" style="background-image: url('" + background + "')")
+		div(class="intro-body")
+			div(class="container")
+				div(class="row")
+					div(class="col-md-8 offset-md-2 text-center")
+						h1()= title
+						h5(class="py-3")= subtitle
+						div(class="intro-text")
+							if block
+								block
+
+mixin next(next)
+	a(href=next class="btn btn-circle page-scroll")
+		i(class="fa fa-angle-double-down animated")
+
+mixin spacer()
+	div(class="spacer2")
+
+mixin section(id, title)
+	section(id=id class="container text-center")
+		div(class="spacer")
+		div(class="row")
+			div(class="col-lg-10 offset-lg-1")
+				h2(class="pb-2")= title
+				if block
+					block

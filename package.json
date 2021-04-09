@@ -1,0 +1,21 @@
+{
+  "name": "pugger",
+  "version": "1.0.0",
+  "description": "Command line tool for rendering pugjs templates to static HTML for my Github Pages",
+  "homepage": "https://github.com/goossens/Pugger",
+  "main": "index.js",
+  "bin": "./index.js",
+  "preferGlobal": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Johan Goossens",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^7.2.0",
+    "jstransformer-markdown-it": "^2.1.0",
+    "mkdirp": "^1.0.4",
+    "prettier": "^2.2.1",
+    "pug": "^3.0.2"
+  }
+}
