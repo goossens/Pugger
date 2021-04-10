@@ -124,16 +124,28 @@ function renderDirectory(input, output) {
 	}
 }
 
+// warn if no files or directories are mentioned
+if (program.args.length == 0) {
+	console.error("pugger: no files or directories provided");
+	process.exit(1);
+}
+
 // process each directory/file
 program.args.forEach(function(arg) {
-	var stat = fs.lstatSync(arg);
+	if (fs.existsSync(arg)) {
+		var stat = fs.lstatSync(arg);
 
-	if (stat.isDirectory()) {
-		// process a directory
-		renderDirectory(arg, program.opts().out);
+		if (stat.isDirectory()) {
+			// process a directory
+			renderDirectory(arg, program.opts().out);
+
+		} else {
+			// process file
+			renderFile(file, changeExtension(file, ".html"));
+		}
 
 	} else {
-		// process file
-		renderFile(file, changeExtension(file, ".html"));
+		console.error(`pugger: directory/file [${arg}] doesn't exist`);
+		process.exit(1);
 	}
 });

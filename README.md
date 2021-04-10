@@ -26,8 +26,8 @@ defines it as "A term used to describe a person who is a total individual.
 They don't care what anyone thinks of them and they do what they please.
 Just like a pug". Luckily, neither of these definitions are offensive
 and I hope the "puggers" don't mind. For those of you who think I picked
-Pugger as a reference to the dog, I hate to disappoint as I'm not a dog
-person due to severe allergies.
+the name Pugger as a reference to the dog, I hate to disappoint as I'm not
+a dog person due to severe allergies.
 
 ## Installation
 
@@ -49,9 +49,15 @@ the following two NPM commands:
       -o, --out <dir>       output the rendered HTML to <dir> (default: ".")
       -h, --help            display help for command
 
+## Example Usage
+
+Please the
+[Steampunk Desk Lamp](https://github.com/goossens/SteampunkDeskLamp)
+project for an example on how to use Pugger.
+
 ## Special Thanks
 
-This projects capitalizes the following Open Source projects:
+This projects capitalizes on the following Open Source projects:
 
 * NodeJS - https://nodejs.org/
 * NPM - https://www.npmjs.com
