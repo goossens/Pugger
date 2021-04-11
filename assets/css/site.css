@@ -24,6 +24,14 @@ a:focus {
 	color: #1d9b6c;
 }
 
+li {
+	text-align: left;
+}
+
+pre code {
+	color: #f4c;
+}
+
 .navbar-custom {
 	margin-bottom: 0;
 	border-bottom: 1px solid rgba(255,255,255,.3);

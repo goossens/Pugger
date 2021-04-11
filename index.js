@@ -49,8 +49,11 @@ function renderFile(input, output) {
 
 	// patch html to support classes on markdown images
 	html = html.replaceAll(/<img src="class:([a-zA-Z\-0-9:]*):/g, function(match, p1) {
-		return "<img class=\"" + p1.replace(":", " ") + "\" src=\"";
+		return "<img class=\"" + p1.replaceAll(":", " ") + "\" src=\"";
 	});
+
+	// path internal anchor to get soft scrolling
+	html = html.replaceAll("<a href=\"#", "<a class=\"page-scroll\" href=\"#");
 
 	var prettified = prettier.format(html, {
 		parser: "html"
