@@ -17,6 +17,9 @@ mixin page(title)
 			if lightbox
 				link(rel="stylesheet", type="text/css", href="css/featherlight.min.css")
 				link(rel="stylesheet", type="text/css", href="css/lightbox.css")
+			if media
+				link(rel="stylesheet", type="text/css", href="css/mediaelementplayer.min.css")
+				link(rel="stylesheet", type="text/css", href="css/blueimp-gallery.min.css")
 		body(id="page-top")
 			if block
 				block
@@ -28,6 +31,9 @@ mixin page(title)
 			if lightbox
 				script(src="js/featherlight.min.js")
 				script(src="js/lightbox.js")
+			if media
+				script(src="js/mediaelement-and-player.min.js")
+				script(src="blueimp-gallery.min.js")
 
 mixin menubar(title)
 	nav(class="navbar fixed-top navbar-expand-md navbar-custom")

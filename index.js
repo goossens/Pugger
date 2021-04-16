@@ -52,9 +52,13 @@ function renderFile(input, output) {
 		return "<img class=\"" + p1.replaceAll(":", " ") + "\" src=\"";
 	});
 
-	// path internal anchor to get soft scrolling
+	// patch internal anchor to get soft scrolling
 	html = html.replaceAll("<a href=\"#", "<a class=\"page-scroll\" href=\"#");
 
+	// prettify tables
+	html = html.replaceAll("<table>", "<table class=\"table table-striped table-dark\">");
+
+	// prettify the html
 	var prettified = prettier.format(html, {
 		parser: "html"
 	});

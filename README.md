@@ -51,7 +51,7 @@ the following two NPM commands:
 
 ## Example Usage
 
-Please the
+Please see the
 [Steampunk Desk Lamp](https://github.com/goossens/SteampunkDeskLamp)
 project for an example on how to use Pugger.
 
