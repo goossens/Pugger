@@ -16,6 +16,7 @@ const prettier = require("prettier");
 program
 	.version(require("pug/package.json").version)
 	.usage("[options] [dir|file ...]")
+	.option("-t, --theme <theme>", "specify page theme", "page")
 	.option("-a, --assets", "synchronize assets")
 	.option("-l, --lightbox", "add lightbox assets")
 	.option("-m, --media", "add media (audio/video) assets")
@@ -52,17 +53,23 @@ function renderFile(input, output) {
 		return "<img class=\"" + p1.replaceAll(":", " ") + "\" src=\"";
 	});
 
-	// patch internal anchor to get soft scrolling
+	// patch internal anchors to get soft scrolling
 	html = html.replaceAll("<a href=\"#", "<a class=\"page-scroll\" href=\"#");
 
 	// prettify tables
-	html = html.replaceAll("<table>", "<table class=\"table table-striped table-dark\">");
+	if (fs.existsSync(path.join(__dirname, "themes", program.opts().theme, ".dark"))) {
+		html = html.replaceAll("<table>", "<table class=\"table table-striped table-dark\">");
+
+	} else{
+		html = html.replaceAll("<table>", "<table class=\"table table-striped\">");
+	}
 
 	// prettify the html
 	var prettified = prettier.format(html, {
 		parser: "html"
 	});
 
+	mkdirp.sync(path.dirname(output));
 	fs.writeFileSync(output, prettified);
 }
 
@@ -73,10 +80,14 @@ function walk(dir, callback) {
 			throw err;
 		}
 
+		files = files.filter(function(item) {
+			return !(/(^|\/)\.[^\/\.]/g).test(item);
+		});
+
 		files.forEach(function(file) {
 			var filepath = path.join(dir, file);
 
-			fs.stat(filepath, function(err,stats) {
+			fs.stat(filepath, function(err, stats) {
 				callback(filepath);
 
 				if (stats.isDirectory()) {
@@ -90,9 +101,7 @@ function walk(dir, callback) {
 // copy a directory
 function copyDirectory(src, dest) {
 	walk(src, function(entry) {
-		var stat = fs.lstatSync(entry);
-
-		if (stat.isDirectory()) {
+		if (fs.lstatSync(entry).isDirectory()) {
 			mkdirp.sync(path.join(dest, entry.substr(src.length + 1)));
 
 		} else {
@@ -105,12 +114,7 @@ function copyDirectory(src, dest) {
 function renderDirectory(input, output) {
 	// walk all sub-directories and render all pug files
 	walk(input, function(entry) {
-		var stat = fs.lstatSync(entry);
-
-		if (stat.isDirectory()) {
-			mkdirp.sync(path.join(output, entry.substr(input.length + 1)));
-
-		} else if (path.extname(entry) == ".pug") {
+		if (fs.lstatSync(entry).isFile() && path.extname(entry) == ".pug") {
 			renderFile(entry, changeExtension(path.join(output, entry.substr(input.length + 1)), ".html"));
 		}
 	});
@@ -118,6 +122,13 @@ function renderDirectory(input, output) {
 	// synchronize assets if required
 	if (program.opts().assets) {
 		copyDirectory(path.join(__dirname, "assets"), output);
+		copyDirectory(path.join(__dirname, "themes", program.opts().theme), output);
+
+		var customAssest = path.join(input, "assets");
+
+		if (fs.existsSync(customAssest) && fs.lstatSync(customAssest).isDirectory()) {
+			copyDirectory(customAssest, output);
+		}
 	}
 
 	// synchronize lightbox if required
@@ -140,9 +151,7 @@ if (program.args.length == 0) {
 // process each directory/file
 program.args.forEach(function(arg) {
 	if (fs.existsSync(arg)) {
-		var stat = fs.lstatSync(arg);
-
-		if (stat.isDirectory()) {
+		if (fs.lstatSync(arg).isDirectory()) {
 			// process a directory
 			renderDirectory(arg, program.opts().out);
 

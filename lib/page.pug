@@ -13,13 +13,13 @@ mixin page(title)
 			meta(http-equiv="x-ua-compatible", content="ie=edge")
 			link(rel="stylesheet", type="text/css", href="css/bootstrap.min.css")
 			link(rel="stylesheet", type="text/css", href="fonts/font-awesome.min.css")
-			link(rel="stylesheet", type="text/css", href="css/site.css")
 			if lightbox
 				link(rel="stylesheet", type="text/css", href="css/featherlight.min.css")
 				link(rel="stylesheet", type="text/css", href="css/lightbox.css")
 			if media
 				link(rel="stylesheet", type="text/css", href="css/mediaelementplayer.min.css")
 				link(rel="stylesheet", type="text/css", href="css/blueimp-gallery.min.css")
+			link(rel="stylesheet", type="text/css", href="css/theme.css")
 		body(id="page-top")
 			if block
 				block
@@ -27,13 +27,13 @@ mixin page(title)
 			script(src="js/jquery.min.js")
 			script(src="js/bootstrap.min.js")
 			script(src="js/jquery.easing.min.js")
-			script(src="js/site.js")
 			if lightbox
 				script(src="js/featherlight.min.js")
 				script(src="js/lightbox.js")
 			if media
 				script(src="js/mediaelement-and-player.min.js")
 				script(src="blueimp-gallery.min.js")
+			script(src="js/theme.js")
 
 mixin menubar(title)
 	nav(class="navbar fixed-top navbar-expand-md navbar-custom")
@@ -83,6 +83,7 @@ mixin section(id, title)
 				if block
 					block
 
-mixin copyright()
+mixin copyright(years, author)
 	section(id="copyright" class="container text-center")
-		p(class="pb-3") Copyright (c) 2019-2021 Johan A. Goossens. All rights reserved.
+		p(class="my-0")= "Copyright (c) " + years + " " + author + ". All rights reserved."
+		p(class="pb-5") This work is licensed under the terms of the MIT license.

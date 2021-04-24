@@ -1,0 +1,85 @@
+//-	Copyright (c) 2020-2021 Johan A. Goossens. All rights reserved.
+//-
+//-	This work is licensed under the terms of the MIT license.
+//-	For a copy, see <https://opensource.org/licenses/MIT>.
+
+mixin page(title)
+	doctype html
+	html(lang="en")
+		head
+			title= title
+			meta(charset="utf-8")
+			meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+			meta(http-equiv="x-ua-compatible", content="ie=edge")
+			link(rel="stylesheet", type="text/css", href="css/bootstrap.min.css")
+			link(rel="stylesheet", type="text/css", href="fonts/font-awesome.min.css")
+			if lightbox
+				link(rel="stylesheet", type="text/css", href="css/featherlight.min.css")
+				link(rel="stylesheet", type="text/css", href="css/lightbox.css")
+			if media
+				link(rel="stylesheet", type="text/css", href="css/mediaelementplayer.min.css")
+				link(rel="stylesheet", type="text/css", href="css/blueimp-gallery.min.css")
+			link(rel="stylesheet", type="text/css", href="css/theme.css")
+		body(id="page-top")
+			if block
+				block
+
+			script(src="js/jquery.min.js")
+			script(src="js/bootstrap.min.js")
+			script(src="js/jquery.easing.min.js")
+			if lightbox
+				script(src="js/featherlight.min.js")
+				script(src="js/lightbox.js")
+			if media
+				script(src="js/mediaelement-and-player.min.js")
+				script(src="blueimp-gallery.min.js")
+			script(src="js/theme.js")
+
+mixin manual()
+	div(class="container-fluid d-flex flex-column flex-grow-1 vh-100 overflow-hidden")
+		if block
+			block
+
+mixin manual-header(icon, title)
+	nav(class="navbar navbar-expand px-0 pt-1 pb-0 flex-shrink-0 manual-header")
+		a(class="navbar-brand" href="index.html")
+			img(src=icon height="40" alt="")
+			span(class="ml-2")= title
+		button(data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" data-toogle="collapse" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation")
+			i(class="fa fa-bars")
+		div(class="collapse navbar-collapse" id="navbarResponsive")
+			ul(class="navbar-nav ml-auto")
+				if block
+					block
+
+mixin manual-link(title, href)
+	li(class="nav-item text-right")
+		a(class="nav-link page-scroll" href=href)= title
+
+mixin manual-body()
+	div(class="row flex-grow-1 overflow-hidden vh-100")
+		if block
+			block
+
+mixin manual-toc(title)
+	div(class="col-2 mh-100 overflow-auto py-2 manual-toc")
+		p(class="pt-2")
+			strong= title
+		if block
+			block
+
+mixin manual-content()
+	div(class="col mh-100 overflow-auto py-2 manual-content")
+		if block
+			block
+
+mixin manual-chapter(id, title)
+	div(id=id)
+		if title
+			h1(class="pb-2")= title
+		if block
+			block
+
+mixin manual-footer(years, author)
+	div(id="copyright" class="row flex-shrink-0 py-1 manual-footer")
+		p(class="mx-auto py-0 my-0 small")= "Copyright (c) " + years + " " + author + ". All rights reserved."
