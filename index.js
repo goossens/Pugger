@@ -12,7 +12,7 @@ const mkdirp = require("mkdirp");
 const pug = require("pug");
 const prettier = require("prettier");
 
-// setup comannd line parsing
+// setup command line parsing
 program
 	.version(require("pug/package.json").version)
 	.usage("[options] [dir|file ...]")

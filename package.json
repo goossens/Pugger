@@ -12,7 +12,7 @@
   "author": "Johan Goossens",
   "license": "MIT",
   "dependencies": {
-    "commander": "^7.2.0",
+    "commander": "^8.1.0",
     "jstransformer-markdown-it": "^2.1.0",
     "mkdirp": "^1.0.4",
     "prettier": "^2.2.1",
