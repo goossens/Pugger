@@ -1,4 +1,4 @@
-//-	Copyright (c) 2020-2021 Johan A. Goossens. All rights reserved.
+//-	Copyright (c) 2020-2022 Johan A. Goossens. All rights reserved.
 //-
 //-	This work is licensed under the terms of the MIT license.
 //-	For a copy, see <https://opensource.org/licenses/MIT>.
@@ -53,20 +53,32 @@ mixin manual-header(icon, title)
 					block
 
 mixin manual-link(title, href)
-	li(class="nav-item text-right")
+	li(class="nav-item")
 		a(class="nav-link page-scroll" href=href)= title
+
+mixin manual-menu(title)
+	li(class="nav-item dropdown")
+		a(class="nav-link dropdown-toggle" href="#" id=title role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")= title
+		div(class="dropdown-menu" aria-labelledby=title)
+			if block
+				block
+
+mixin manual-menu-item(title, href)
+	a(class="nav-link page-scroll" href=href)= title
 
 mixin manual-body()
 	div(class="row flex-grow-1 overflow-hidden vh-100")
 		if block
 			block
 
-mixin manual-toc(title)
+mixin manual-toc()
 	div(class="col-2 mh-100 overflow-auto py-2 manual-toc")
-		p(class="pt-2")
-			strong= title
 		if block
 			block
+
+mixin manual-toc-header(title)
+	p(class="pt-2")
+		strong= title
 
 mixin manual-content()
 	div(class="col mh-100 overflow-auto py-2 manual-content")
