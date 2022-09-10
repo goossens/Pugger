@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-//	Copyright (c) 2020-2021 Johan A. Goossens. All rights reserved.
+//	Copyright (c) 2020-2022 Johan A. Goossens. All rights reserved.
 //
 //	This work is licensed under the terms of the MIT license.
 //	For a copy, see <https://opensource.org/licenses/MIT>.
@@ -156,8 +156,8 @@ program.args.forEach(function(arg) {
 			renderDirectory(arg, program.opts().out);
 
 		} else {
-			// process file
-			renderFile(file, changeExtension(file, ".html"));
+			// process a file
+			renderFile(arg, path.join(program.opts().out, changeExtension(arg, ".html")));
 		}
 
 	} else {
