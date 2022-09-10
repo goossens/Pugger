@@ -1,6 +1,6 @@
 {
   "name": "pugger",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Command line tool for rendering pugjs templates to static HTML for my Github Pages",
   "homepage": "https://github.com/goossens/Pugger",
   "main": "index.js",
@@ -12,10 +12,10 @@
   "author": "Johan Goossens",
   "license": "MIT",
   "dependencies": {
-    "commander": "^8.1.0",
-    "jstransformer-markdown-it": "^2.1.0",
+    "commander": "^9.4.0",
+    "jstransformer-markdown-it": "^3.0.0",
     "mkdirp": "^1.0.4",
-    "prettier": "^2.2.1",
+    "prettier": "^2.7.1",
     "pug": "^3.0.2"
   }
 }
