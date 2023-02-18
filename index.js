@@ -20,6 +20,7 @@ program
 	.option("-a, --assets", "synchronize assets")
 	.option("-l, --lightbox", "add lightbox assets")
 	.option("-m, --media", "add media (audio/video) assets")
+	.option("-r, --recursive", "recurse all directories")
 	.option("-o, --out <dir>", "output the rendered HTML to <dir>", ".");
 
 program.parse(process.argv);
@@ -74,7 +75,7 @@ function renderFile(input, output) {
 }
 
 // walk a directory
-function walk(dir, callback) {
+function walk(dir, callback, recurse) {
 	fs.readdir(dir, function(err, files) {
 		if (err) {
 			throw err;
@@ -90,7 +91,7 @@ function walk(dir, callback) {
 			fs.stat(filepath, function(err, stats) {
 				callback(filepath);
 
-				if (stats.isDirectory()) {
+				if (recurse && stats.isDirectory()) {
 					walk(filepath, callback);
 				}
 			});
@@ -107,17 +108,17 @@ function copyDirectory(src, dest) {
 		} else {
 			fs.copyFileSync(entry, path.join(dest, entry.substr(src.length + 1)));
 		}
-	});
+	}, true);
 }
 
 // function to render a directory
 function renderDirectory(input, output) {
-	// walk all sub-directories and render all pug files
+	// walk all (sub-)directories and render all pug files
 	walk(input, function(entry) {
 		if (fs.lstatSync(entry).isFile() && path.extname(entry) == ".pug") {
 			renderFile(entry, changeExtension(path.join(output, entry.substr(input.length + 1)), ".html"));
 		}
-	});
+	}, program.opts().recursive);
 
 	// synchronize assets if required
 	if (program.opts().assets) {
