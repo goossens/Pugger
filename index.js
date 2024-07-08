@@ -1,20 +1,22 @@
 #!/usr/bin/env node
 
-//	Copyright (c) 2020-2022 Johan A. Goossens. All rights reserved.
+//	Copyright (c) 2020-2024 Johan A. Goossens. All rights reserved.
 //
 //	This work is licensed under the terms of the MIT license.
 //	For a copy, see <https://opensource.org/licenses/MIT>.
 
 const fs = require("fs");
 const path = require("path");
-const program = require("commander");
+const { Command } = require('commander');
 const mkdirp = require("mkdirp");
 const pug = require("pug");
 const prettier = require("prettier");
 
 // setup command line parsing
+const program = new Command();
+
 program
-	.version(require("pug/package.json").version)
+	.version("1.1.0")
 	.usage("[options] [dir|file ...]")
 	.option("-t, --theme <theme>", "specify page theme", "page")
 	.option("-a, --assets", "synchronize assets")
@@ -32,7 +34,7 @@ function changeExtension(file, extension) {
 }
 
 // function to render a file
-function renderFile(input, output) {
+async function renderFile(input, output) {
 	global.lightbox = program.opts().lightbox;
 	global.media = program.opts().media;
 
@@ -66,7 +68,7 @@ function renderFile(input, output) {
 	}
 
 	// prettify the html
-	var prettified = prettier.format(html, {
+	var prettified = await prettier.format(html, {
 		parser: "html"
 	});
 
