@@ -8,6 +8,7 @@
 const fs = require("fs");
 const path = require("path");
 const { Command } = require('commander');
+const markdownIt = require("markdown-it");
 const mkdirp = require("mkdirp");
 const pug = require("pug");
 const prettier = require("prettier");
@@ -27,6 +28,12 @@ program
 
 program.parse(process.argv);
 
+// parse markdown into html
+function transformMarkdown(text, options) {
+	const md = markdownIt();
+	return md.render(text);
+}
+
 // change the extension of a file
 function changeExtension(file, extension) {
 	const basename = path.basename(file, path.extname(file));
@@ -45,6 +52,7 @@ async function renderFile(input, output) {
 	var html = pug.render(raw, {
 		filename: input,
 		basedir: path.join(__dirname, "lib"),
+		filters: { "markdown": transformMarkdown },
 		globals: [
 			"lightbox",
 			"media"

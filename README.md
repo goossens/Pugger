@@ -31,11 +31,10 @@ a dog person due to severe allergies.
 
 ## Installation
 
-To install pugger globally on you system, download the repository and run
-the following two NPM commands:
+The index.js file is executable so I simply create a symbolic link
+in my local bin directory:
 
-	npm install
-	npm link
+	ln -s <path-to-directory>/index.js ~/bin/pugger
 
 ## Usage
 
@@ -69,7 +68,7 @@ This projects capitalizes on the following Open Source projects:
 * MediaElement.js - http://www.mediaelementjs.com
 * Commander.js - https://github.com/tj/commander.js
 * PugJS - https://pugjs.org/
-* Jstransformer Markdown - https://github.com/jstransformers/jstransformer-markdown-it
+* Markdown parser - https://github.com/markdown-it/markdown-it
 * Prettier - https://github.com/prettier/prettier
 * mkdirp - https://github.com/isaacs/node-mkdirp
 
