@@ -12,10 +12,10 @@
   "author": "Johan Goossens",
   "license": "MIT",
   "dependencies": {
-    "commander": "^12.1.0",
+    "commander": "^13.1.0",
     "markdown-it": "^14.1.0",
     "mkdirp": "^ 3.0.1",
-    "prettier": "^3.3.2",
+    "prettier": "^3.5.3",
     "pug": "^3.0.2"
   }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-//	Copyright (c) 2020-2024 Johan A. Goossens. All rights reserved.
+//	Copyright (c) 2020-2025 Johan A. Goossens. All rights reserved.
 //
 //	This work is licensed under the terms of the MIT license.
 //	For a copy, see <https://opensource.org/licenses/MIT>.
@@ -17,16 +17,17 @@ const prettier = require("prettier");
 const program = new Command();
 
 program
-	.version("1.1.0")
-	.usage("[options] [dir|file ...]")
-	.option("-t, --theme <theme>", "specify page theme", "page")
+	.name("pugger")
+	.version("1.2.0")
+	.argument("[dir|file ...]")
+	.option("-t, --theme <theme>", "specify page theme (manual or page)", "page")
 	.option("-a, --assets", "synchronize assets")
 	.option("-l, --lightbox", "add lightbox assets")
 	.option("-m, --media", "add media (audio/video) assets")
 	.option("-r, --recursive", "recurse all directories")
-	.option("-o, --out <dir>", "output the rendered HTML to <dir>", ".");
+	.option("-o, --out <dir>", "output the rendered HTML to specified", ".");
 
-program.parse(process.argv);
+program.parse();
 
 // parse markdown into html
 function transformMarkdown(text, options) {
