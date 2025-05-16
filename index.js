@@ -31,7 +31,7 @@ program.parse();
 
 // parse markdown into html
 function transformMarkdown(text, options) {
-	const md = markdownIt();
+	const md = markdownIt({html: true});
 	return md.render(text);
 }
 
