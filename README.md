@@ -8,7 +8,7 @@ editors but it would be hard to keep all pages in all project consistent.
 
 Pugger is basically a nodejs-based command line tool that takes pug
 templates that might refer to markdown text and generate all the HTML,
-CSS and Javascripts files required to view the site.
+CSS and Javascript files required to view the site.
 
 In my normal workflow, the source for the web pages is stored in the
 various projects and a script generates the required files in the top-level

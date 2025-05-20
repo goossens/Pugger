@@ -7,7 +7,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { Command } = require('commander');
+const { Command } = require("commander");
 const markdownIt = require("markdown-it");
 const mkdirp = require("mkdirp");
 const pug = require("pug");
@@ -18,7 +18,7 @@ const program = new Command();
 
 program
 	.name("pugger")
-	.version("1.2.0")
+	.version("1.3.0")
 	.argument("[dir|file ...]")
 	.option("-t, --theme <theme>", "specify page theme (manual or page)", "page")
 	.option("-a, --assets", "synchronize assets")
@@ -33,6 +33,12 @@ program.parse();
 function transformMarkdown(text, options) {
 	const md = markdownIt({html: true});
 	return md.render(text);
+}
+
+// determine if file name represents an image
+function isImageFile(file) {
+	const ext = path.extname(file).toLowerCase();
+	return [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"].includes(ext);
 }
 
 // change the extension of a file
@@ -87,27 +93,29 @@ async function renderFile(input, output) {
 
 // walk a directory
 function walk(dir, callback, recurse) {
-	fs.readdir(dir, function(err, files) {
-		if (err) {
-			throw err;
-		}
+	if (!fs.existsSync(path.join(dir, "nopugger"))) {
+		fs.readdir(dir, function(err, files) {
+			if (err) {
+				throw err;
+			}
 
-		files = files.filter(function(item) {
-			return !(/(^|\/)\.[^\/\.]/g).test(item);
-		});
+			files = files.filter(function(item) {
+				return !(/(^|\/)\.[^\/\.]/g).test(item);
+			});
 
-		files.forEach(function(file) {
-			var filepath = path.join(dir, file);
+			files.forEach(function(file) {
+				var filepath = path.join(dir, file);
 
-			fs.stat(filepath, function(err, stats) {
-				callback(filepath);
+				fs.stat(filepath, function(err, stats) {
+					callback(filepath);
 
-				if (recurse && stats.isDirectory()) {
-					walk(filepath, callback);
-				}
+					if (recurse && stats.isDirectory()) {
+						walk(filepath, callback, recurse);
+					}
+				});
 			});
 		});
-	});
+	}
 }
 
 // copy a directory
@@ -124,10 +132,15 @@ function copyDirectory(src, dest) {
 
 // function to render a directory
 function renderDirectory(input, output) {
-	// walk all (sub-)directories and render all pug files
+	// walk all (sub-)directories, render all pug files and copy local assets (if required)
 	walk(input, function(entry) {
-		if (fs.lstatSync(entry).isFile() && path.extname(entry) == ".pug") {
-			renderFile(entry, changeExtension(path.join(output, entry.substr(input.length + 1)), ".html"));
+		if (fs.lstatSync(entry).isFile()) {
+			if (path.extname(entry) == ".pug") {
+				renderFile(entry, changeExtension(path.join(output, entry.substr(input.length + 1)), ".html"));
+
+			} else if (program.opts().assets && isImageFile(entry)) {
+				fs.copyFileSync(entry, path.join(output, "img", path.basename(entry)));
+			}
 		}
 	}, program.opts().recursive);
 
@@ -136,10 +149,10 @@ function renderDirectory(input, output) {
 		copyDirectory(path.join(__dirname, "assets"), output);
 		copyDirectory(path.join(__dirname, "themes", program.opts().theme), output);
 
-		var customAssest = path.join(input, "assets");
+		var customAssets = path.join(input, "assets");
 
-		if (fs.existsSync(customAssest) && fs.lstatSync(customAssest).isDirectory()) {
-			copyDirectory(customAssest, output);
+		if (fs.existsSync(customAssets) && fs.lstatSync(customAssets).isDirectory()) {
+			copyDirectory(customAssets, output);
 		}
 	}
 
